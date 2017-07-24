@@ -24,18 +24,17 @@ class Config:
                                            backupCount=20,
                                            encoding='utf-8')
 
-        if os.getenv('ENV') != 'production':
-            logging.getLogger().setLevel(logging.DEBUG)
-            # logging.basicConfig(level=logging.DEBUG)
-        else:
-            logging.getLogger().setLevel(logging.INFO)
-            # logging.basicConfig(level=logging.INFO)
-
-        app.logger.addHandler(file_handler)
-
         file_handler.setFormatter(Formatter(
             '%(asctime)s [in %(pathname)s:%(lineno)d] %(levelname)s: %(message)s '
         ))
+
+        if os.getenv('ENV') != 'production':
+            logging.getLogger().setLevel(logging.DEBUG)
+        else:
+            logging.getLogger().setLevel(logging.INFO)
+            app.logger.removeHandler(app.logger.handlers[0])
+
+        app.logger.addHandler(file_handler)
 
 
 class DevelopmentConfig(Config):
