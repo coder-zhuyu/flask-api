@@ -32,7 +32,7 @@ class Config:
             logging.getLogger().setLevel(logging.DEBUG)
         else:
             logging.getLogger().setLevel(logging.INFO)
-            app.logger.removeHandler(app.logger.handlers[0])
+            app.logger.handlers = []    # disable other handlers
 
         app.logger.addHandler(file_handler)
 
